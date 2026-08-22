@@ -6,7 +6,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import NotesClient from "./Notes.client";
-import { fetchNotes } from '@/services/noteServices'; 
+import { fetchNotes } from '@/lib/api'; 
 
 interface PageProps {
   params: Promise<{
@@ -26,7 +26,7 @@ export default async function NotesPage({ params }: PageProps) {
 
   await queryClient.prefetchQuery({
     queryKey: ["notes", apiTag],
-    queryFn: () => fetchNotes(1, apiTag),
+    queryFn: () => fetchNotes({ page: 1, tag: apiTag }),
   });
 
   return (

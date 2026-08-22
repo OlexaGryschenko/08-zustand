@@ -27,13 +27,18 @@ export default function NotesClient({ tag }: NotesClientProps) {
 
   const { data: response, isLoading } = useQuery({
     queryKey: ["notes", currentPage, debouncedSearch, apiTag],
-    queryFn: () => fetchNotes(currentPage, debouncedSearch, 12, apiTag),
+    queryFn: () => fetchNotes({
+      page: currentPage,
+      search: debouncedSearch,
+      perPage: 12,
+      tag: apiTag
+    }),
     placeholderData: keepPreviousData,
   });
 
   const handlePageChange = (selectedItem: { selected: number }): void => {
-  setCurrentPage(selectedItem.selected + 1);
-};
+    setCurrentPage(selectedItem.selected + 1);
+  };
 
   const handleSearchChange = (value: string): void => {
     setSearchQuery(value);
@@ -60,12 +65,12 @@ export default function NotesClient({ tag }: NotesClientProps) {
           <p>Loading notes...</p>
         ) : (
           <><Pagination
-              pageCount={response?.totalPages || 1}
-              onPageChange={handlePageChange}
-              forcePage={currentPage - 1}
-            />
+            pageCount={response?.totalPages || 1}
+            onPageChange={handlePageChange}
+            forcePage={currentPage - 1}
+          />
             <NoteList notes={response?.notes || []} />
-            
+
           </>
         )}
 

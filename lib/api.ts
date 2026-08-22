@@ -1,25 +1,13 @@
-// lib/api.ts
-
 import axios from "axios";
-import type { Note } from "../types/note.ts";
-
-export interface NotesResponse {
-  notes: Note[];
-  totalPages: number;
-  page: number;
-  perPage: number;
-  tag?: string;
-}
-
-// ++++++++++++++  GET +++++++++++++++++++
+import type { Note } from "@/types/note"; 
 
 const NOTEHUB_TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
+// 1. Рання перевірка токена
 if (!NOTEHUB_TOKEN) {
   throw new Error("NoteHub token is missing");
 }
 
-// Setting up a basic instance
 const api = axios.create({
   baseURL: "https://notehub-public.goit.study/api",
   headers: {
@@ -28,44 +16,52 @@ const api = axios.create({
   },
 });
 
-export const fetchNotes = async (
-  page: number = 1,
-  search: string = "",
-  perPage: number = 12,
-  tag: string = ""
-): Promise<NotesResponse> => {
-  const response = await api.get<NotesResponse>(`/notes`, {
+export interface NotesResponse {
+  notes: Note[];
+  totalPages: number;
+  page: number;
+  perPage: number;
+}
+
+export interface FetchNotesParams {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  tag?: string;
+}
+
+// 2. Використання Omit
+export type NewNote = Omit<Note, "id" | "createdAt" | "updatedAt">;
+
+// 3. Патерн "Об'єкт параметрів" + дефолтні значення
+export const fetchNotes = async ({
+  page = 1,
+  perPage = 12,
+  search = "",
+  tag = "",
+}: FetchNotesParams = {}): Promise<NotesResponse> => {
+  const response = await api.get<NotesResponse>("/notes", {
     params: {
       page,
       perPage,
-      search: search || undefined,
+      search: search || undefined, // 4. Очищення параметрів
       tag: tag && tag !== "all" ? tag : undefined,
     },
   });
   return response.data;
 };
 
-//  ============== NEW NOTE ==================
-
-export type NewNote = Omit<Note, "id" | "createdAt" | "updatedAt">;
-
 export const createNote = async (noteData: NewNote): Promise<Note> => {
-  const response = await api.post<Note>(`/notes`, noteData);
+  const response = await api.post<Note>("/notes", noteData);
   return response.data;
 };
-
-// <<<<<<<<<<<<<<<<<<<<<  DELETE >>>>>>>>>>>>>>>>>>>>>>>>>
 
 export const deleteNote = async (id: string): Promise<Note> => {
   const response = await api.delete<Note>(`/notes/${id}`);
-
   return response.data;
 };
 
-// fetchNoteById
-// для отримання деталей нотатки за ідентифікатором.
-
-export async function fetchNoteById(id: string): Promise<Note> {
+export const fetchNoteById = async (id: string): Promise<Note> => {
   const response = await api.get<Note>(`/notes/${id}`);
   return response.data;
-}
+};
