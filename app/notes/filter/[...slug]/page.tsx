@@ -1,4 +1,6 @@
 // app/notes/page.tsx
+import { Metadata } from "next";
+
 
 import {
   dehydrate,
@@ -12,6 +14,20 @@ interface PageProps {
   params: Promise<{
     slug: string[];
   }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const tag = resolvedParams.slug[0] || "all";
+  
+  const formattedTag = tag === "all" 
+    ? "All Notes" 
+    : tag.charAt(0).toUpperCase() + tag.slice(1);
+
+  return {
+    title: `${formattedTag} | NoteHub`,
+    description: `View your notes filtered by ${formattedTag}`,
+  };
 }
 
 

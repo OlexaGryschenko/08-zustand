@@ -18,7 +18,7 @@ export default function NoteForm() {
     mutationFn: (newNote: NewNote) => createNote(newNote),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
-      clearDraft(); // 3. Очищаємо чернетку після створення
+      clearDraft(); 
       router.push("/notes/filter/all");
     },
   });
@@ -72,8 +72,8 @@ export default function NoteForm() {
         <label htmlFor="tag">Tag</label>
         <select id="tag"
         name="tag" required 
-        defaultValue={draft.content}
-        onChange={(e) => setDraft({ content: e.target.value })}
+        defaultValue={draft.tag}
+        onChange={(e) => setDraft({ tag: e.target.value as NoteTag })}
 
         className={css.select}>
           <option value="Todo">Todo</option>
