@@ -27,6 +27,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${formattedTag} | NoteHub`,
     description: `View your notes filtered by ${formattedTag}`,
+    openGraph: {
+      title: `${formattedTag} | NoteHub`,
+      description: `View your notes filtered by ${formattedTag}`,
+      url: `https://notehub.com/notes/filter/${tag}`,
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: "NoteHub",
+        },
+      ],
+    },
   };
 }
 
