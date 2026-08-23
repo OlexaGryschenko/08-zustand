@@ -1,13 +1,22 @@
 // app/layout.tsx
 
-// "use client";
-
 import "modern-normalize/modern-normalize.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import { Metadata } from 'next';
 
+import { Roboto } from "next/font/google";
+
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
+
+//  <<<<<<<<<<  FONT >>>>>>>>>>>>>>>> 
+
+const roboto = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto",
+});
 
 
 // <<<<<<<<<<<<<<<<<  metaData >>>>>>>>>>>>>
@@ -26,19 +35,13 @@ export const metadata: Metadata = {
           height: 630,
           alt: "NoteHub",
         },
-      ]},
-  
-  // title
-  // description
-  // url
-  // images
-
+      ]},  
 };
 
 
 //   commune style
 
-import { Geist, Geist_Mono } from "next/font/google";
+/* import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -49,7 +52,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
+}); */
 
 //  end commune style
 
@@ -59,7 +62,7 @@ export default function RootLayout({ children, modal, }: Readonly<{
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${roboto.variable} ${roboto.variable}`}>
         <TanStackProvider>
           <Header />
 
