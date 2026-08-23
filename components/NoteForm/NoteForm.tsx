@@ -6,7 +6,7 @@ import { createNote, type NewNote } from '@/lib/api';
 import { type NoteTag } from "@/types/note"
 import css from "./NoteForm.module.css";
 
-import { useNoteDraftStore } from '@/lib/stores/noteStore'
+import { useNoteDraftStore } from '@/lib/store/noteStore'
 
 
 export default function NoteForm() {
