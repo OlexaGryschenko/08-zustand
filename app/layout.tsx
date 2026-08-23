@@ -1,10 +1,40 @@
+// app/layout.tsx
+
 // "use client";
 
 import "modern-normalize/modern-normalize.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import { Metadata } from 'next';
 
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
+
+
+// <<<<<<<<<<<<<<<<<  metaData >>>>>>>>>>>>>
+
+export const metadata: Metadata = {
+  title: "NoteHub",
+  description: "NoteHub for you",
+  openGraph: {
+      title: "NoteHub",
+      description: "NoteHub for you",
+      url: "https://notehub.com",
+      images: [
+        {
+          url: 'https://ac.goit.global/fullstack/react/og-meta.jpg',
+          width: 1200,
+          height: 630,
+          alt: "NoteHub",
+        },
+      ]},
+  
+  // title
+  // description
+  // url
+  // images
+
+};
+
 
 //   commune style
 
@@ -36,7 +66,7 @@ export default function RootLayout({ children, modal, }: Readonly<{
           <main>
             {children}
             {modal}
-            </main>
+          </main>
 
           <Footer />
         </TanStackProvider>
